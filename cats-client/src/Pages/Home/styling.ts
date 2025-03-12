@@ -3,19 +3,27 @@ import { createUseStyles } from "react-jss";
 export const homePageStyles = createUseStyles({
     page: {
         display: "flex",
-        // alignItems: "center",
+        alignItems: "center",
         justifyContent: "center",
         width: '100svw',
         minHeight: '100svh',
-        backgroundColor: "red"
+        backgroundColor: "white"
     },
     catList: {
-        display: 'flex',
-        flexDirection: 'column',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(25em, 1fr))',
+        // gap: '200px',
+        justifyContent: 'center',
+        // gridAutoRows: '50% 50%',
+        // display: 'flex',
+        // flexWrap: 'wrap',
+        // justifyContent: 'left',
+        // flexDirection: 'column',
+        // backgroundColor: "blue",
         marginTop: '5%',
         marginBottom: '5%',
-        gap: '100px',
-        width: '90%',
-        maxWidth: '75rem'
+        gap: '4vw',
+        maxWidth: '95%',
+        // maxWidth: '75rem'
     }
 })
