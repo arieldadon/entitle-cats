@@ -22,8 +22,6 @@ export class CatsService {
   }
 
   async createCat(createCatDto: CreateCatDto): Promise<Cat> {
-    console.log(createCatDto);
-
     return this.catsRepository.create(
       {
         ...createCatDto,

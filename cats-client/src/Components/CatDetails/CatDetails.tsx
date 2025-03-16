@@ -1,27 +1,26 @@
 import React from "react";
 import { catDetailsStyling } from "./styling";
+import { CatProperties } from "../../typing/cat";
 
-interface Mouse {
-  name: string;
-}
-interface CatDetailsType {
-  firstName: string;
-  lastName: string;
-  imageUrl: string;
-  description: string;
-  mice: Mouse[];
-}
 const CatDetails = ({
   firstName,
   lastName,
   imageUrl,
   description,
   mice,
-}: CatDetailsType): React.JSX.Element => {
+}: CatProperties): React.JSX.Element => {
   const classes = catDetailsStyling();
   return (
     <div className={classes.wrapper}>
-      <img className={classes.image} src={imageUrl} />
+      <img
+        className={classes.image}
+        src={imageUrl}
+        onError={({ currentTarget }) => {
+          currentTarget.onerror = null;
+          currentTarget.src =
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS-o4BqYKVAfgc_on60_5r-hx_NHAFMLF0jQ&s";
+        }}
+      />
       <div className={classes.details}>
         <span className={classes.title}>
           This is {firstName} {lastName}
@@ -29,8 +28,10 @@ const CatDetails = ({
         <span className={classes.description}>{description}</span>
         <span className={classes.miceTitle}>My mice</span>
         <div className={classes.miceList}>
-          {mice.map((mouse) => (
-            <span className={classes.mouse}>- {mouse.name}</span>
+          {mice.map((mouse, index) => (
+            <span className={classes.mouse} key={mouse + index.toString()}>
+              - {mouse.name}
+            </span>
           ))}
         </div>
       </div>

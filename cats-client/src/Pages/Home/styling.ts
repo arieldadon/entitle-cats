@@ -3,27 +3,39 @@ import { createUseStyles } from "react-jss";
 export const homePageStyles = createUseStyles({
     page: {
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: '100svw',
+        flexDirection: 'column',
         minHeight: '100svh',
-        backgroundColor: "white"
+    },
+    searchField: {
+        maxWidth: '500px',
+        marginTop: '1em',
+        marginLeft: '1em',
+        marginRight: '1em'
+    },
+    catListWrapper: {
+        display: 'flex',
+        paddingLeft: '5%',
     },
     catList: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(25em, 1fr))',
-        // gap: '200px',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(15em, 1fr))',
         justifyContent: 'center',
-        // gridAutoRows: '50% 50%',
-        // display: 'flex',
-        // flexWrap: 'wrap',
-        // justifyContent: 'left',
-        // flexDirection: 'column',
-        // backgroundColor: "blue",
-        marginTop: '5%',
+        marginTop: '3em',
         marginBottom: '5%',
-        gap: '4vw',
+        gap: '1.5em',
         maxWidth: '95%',
-        // maxWidth: '75rem'
+    },
+    addButton: {
+        position: 'fixed',
+        bottom: '7svh',
+        right: '5vw',
+        borderRadius: '100%',
+        color: '#C5EBAA',
+        width: '5em',
+        height: '5em',
+        cursor: "pointer",
+        '&:hover': {
+            color: "#A5DD9B"
+        }
     }
 })
