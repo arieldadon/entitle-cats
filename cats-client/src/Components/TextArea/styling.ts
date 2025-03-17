@@ -7,7 +7,6 @@ export const textAreaStyling = createUseStyles({
     },
     hint: {
         paddingBottom: '0.5em',
-        // paddingTop: '0.5em',
         marginLeft: '0.5em',
         fontFamily: 'sans-serif',
         opacity: '0.8'

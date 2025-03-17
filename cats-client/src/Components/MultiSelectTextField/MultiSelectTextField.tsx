@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { TextField } from "../TextField";
+import React, { useCallback, useState } from "react";
+import { TextField } from "../textField";
 import { multiSelectTextFieldStyling } from "./styling";
 import { MdAddCircle } from "react-icons/md";
 
@@ -19,12 +19,21 @@ const MultiSelectTextField = ({
   const [value, setValue] = useState<string>("");
   const classes = multiSelectTextFieldStyling();
 
-  const handleAppend = (): void => {
+  const handleAppend = useCallback((): void => {
     if (value.length > 0) {
       append(value);
       setValue("");
     }
-  };
+  }, [append, value]);
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>): void => {
+      if (event.key === "Enter") {
+        handleAppend();
+        event.preventDefault();
+      }
+    },
+    [handleAppend]
+  );
   const getKey = (item: MultiSelectTypeField, index: number): string => {
     return typeof item === "string" ? item + index.toString() : item.id;
   };
@@ -32,19 +41,14 @@ const MultiSelectTextField = ({
     return typeof item === "string" ? item : item.name;
   };
   return (
-    <div className={classes.wrapper}>
+    <div>
       <div className={classes.textField}>
         <TextField
           className={className + " " + classes.textField}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setValue(e.target.value)
           }
-          onKeyDown={(event) => {
-            if (event.key === "Enter") {
-              handleAppend();
-              event.preventDefault();
-            }
-          }}
+          onKeyDown={handleKeyDown}
           value={value}
           hint="Add Mouse"
         />

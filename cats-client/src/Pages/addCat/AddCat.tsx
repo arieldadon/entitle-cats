@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { addCatStyling } from "./styling";
-import { TextField } from "../../Components/TextField";
+import { TextField } from "../../components/textField";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
-import { TextArea } from "../../Components/TextArea";
-import { MultiSelectTextField } from "../../Components/MultiSelectTextField";
-import { CatProperties } from "../../typing/cat";
-import { addCat } from "../../API/catsAPI";
+import { TextArea } from "../../components/textArea";
+import { MultiSelectTextField } from "../../components/multiSelectTextField";
+import { CatProperties } from "../../types/cat";
+import { addCat } from "../../api/catsAPI";
 import { Link, useNavigate } from "react-router-dom";
 import { MdArrowBackIos } from "react-icons/md";
+import { homePath } from "../../router/config.json";
 
 const AddCat = (): React.JSX.Element => {
   const navigate = useNavigate();
@@ -25,19 +26,22 @@ const AddCat = (): React.JSX.Element => {
 
   const onSubmit: SubmitHandler<CatProperties> = async (data) => {
     await addCat(data);
-    navigate("/");
+    navigate(homePath);
   };
 
-  const addMouse = (name: string): void => {
-    append({ name });
-  };
+  const addMouse = useCallback(
+    (name: string): void => {
+      append({ name });
+    },
+    [append]
+  );
 
   return (
     <div className={classes.wrapper}>
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={classes.titleWrapper}>
-          <Link to="/">
-            <MdArrowBackIos className={classes.backButton}/>
+          <Link to={homePath}>
+            <MdArrowBackIos className={classes.backButton} />
           </Link>
           <span className={classes.title}>Add a new cat</span>
         </div>
@@ -74,6 +78,7 @@ const AddCat = (): React.JSX.Element => {
           hint="Image Url"
           error={errors.imageUrl?.message}
           {...register("imageUrl", {
+            required: "Please enter an url",
             pattern: {
               value:
                 /https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,}/,

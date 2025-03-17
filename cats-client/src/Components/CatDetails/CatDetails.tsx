@@ -1,6 +1,6 @@
 import React from "react";
 import { catDetailsStyling } from "./styling";
-import { CatProperties } from "../../typing/cat";
+import { CatProperties } from "../../types/cat";
 
 const CatDetails = ({
   firstName,

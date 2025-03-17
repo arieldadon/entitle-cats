@@ -1,8 +1,10 @@
-import { CatProperties } from "../typing/cat";
+import { CatProperties } from "../types/cat";
+import config from "./config";
 
+const catsUrl = config.server + config.paths.cats
 
 export const getCats = async (): Promise<CatProperties[]> => {
-  const response = await fetch("http://localhost:3000/cats");
+  const response = await fetch(catsUrl);
   if (!response.ok) {
     throw new Error(response.statusText);
   }
@@ -10,8 +12,7 @@ export const getCats = async (): Promise<CatProperties[]> => {
 }
 
 export const addCat = async (cat: CatProperties): Promise<void> => {
-    console.log(cat);
-    const response = await fetch("http://localhost:3000/cats", {method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify(cat)});
+    const response = await fetch(catsUrl, {method: 'POST', headers: config.jsonContentTypeHeader, body: JSON.stringify(cat)});
     if (!response.ok) {
       throw new Error(response.statusText);
     }

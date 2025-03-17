@@ -1,9 +1,6 @@
 import { createUseStyles } from "react-jss";
 
 export const multiSelectTextFieldStyling = createUseStyles({
-    wrapper: {
-        
-    },
     textField: {
         display: 'flex',
     },

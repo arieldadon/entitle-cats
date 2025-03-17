@@ -12,11 +12,11 @@ interface TextAreaProps {
 const TextField = (props: TextAreaProps): React.JSX.Element => {
   const classes = textAreaStyling();
   return (
-    <div className={classes.wrapper}>
+    <div className={`${props.className} ${classes.wrapper}`}>
       <span className={classes.hint}>{props.hint}</span>
       <textarea
         {...props}
-        className={props.className + " " + classes.textField}
+        className={classes.textField}
       />
     </div>
   );

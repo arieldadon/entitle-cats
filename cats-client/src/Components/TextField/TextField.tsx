@@ -15,7 +15,7 @@ interface TextFieldProps {
 const TextField = (props: TextFieldProps): React.JSX.Element => {
   const classes = textFieldStyling();
   return (
-    <div className={props.className + " " + classes.wrapper}>
+    <div className={`${props.className} ${classes.wrapper}`}>
       <span className={classes.hint}>{props.hint}</span>
       <input
         type={props.type || 'text'}

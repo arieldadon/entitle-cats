@@ -1,23 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { homePageStyles } from "./styling";
 import { MdAddCircle } from "react-icons/md";
 import { Link } from "react-router-dom";
-import CatDetails from "../../Components/CatDetails/CatDetails";
-import { CatProperties } from "../../typing/cat";
-import { TextField } from "../../Components/TextField";
+import CatDetails from "../../components/catDetails/CatDetails";
+import { CatProperties } from "../../types/cat";
+import { TextField } from "../../components/textField";
 import { useCatsContext } from "../../context/catsContext";
+import { addCatPath } from "../../router/config.json";
 
 const Home = (): React.JSX.Element => {
   const classes = homePageStyles();
-  //   const [cats, setCats] = useState<CatProperties[]>([]);
   const { cats, refreshCats } = useCatsContext();
   const [searchField, setSearchField] = useState<string>("");
   useEffect(() => {
-    refreshCats()
-    // getCats().then((response) => setCats(response));
-  }, []);
+    refreshCats();
+  }, [refreshCats]);
 
-  const getFilteredCats = (): CatProperties[] => {
+  const filteredCats = useMemo((): CatProperties[] => {
     return cats.filter((cat) => {
       const catNameLowercase = (
         cat.firstName +
@@ -25,7 +24,6 @@ const Home = (): React.JSX.Element => {
         cat.lastName
       ).toLowerCase();
       const searchFieldLowercase = searchField.toLowerCase();
-      console.log(catNameLowercase, searchFieldLowercase);
 
       return (
         catNameLowercase.includes(searchFieldLowercase) ||
@@ -34,7 +32,7 @@ const Home = (): React.JSX.Element => {
         )
       );
     });
-  };
+  }, [searchField, cats]);
   return (
     <div className={classes.page}>
       <TextField
@@ -43,12 +41,12 @@ const Home = (): React.JSX.Element => {
         onChange={(e) => setSearchField(e.target.value)}
         value={searchField}
       />
-      <Link to="/add-cat">
+      <Link to={addCatPath}>
         <MdAddCircle className={classes.addButton} />
       </Link>
       <div className={classes.catListWrapper}>
         <div className={classes.catList}>
-          {getFilteredCats().map((cat, index) => (
+          {filteredCats.map((cat, index) => (
             <CatDetails {...cat} key={cat.firstName + index.toString()} />
           ))}
         </div>
