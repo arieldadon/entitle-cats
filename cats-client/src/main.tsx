@@ -1,10 +1,13 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import Router from './Router.tsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import Router from "./Router.tsx";
+import { CatsProvider } from "./context/catsContext.ts";
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Router />
-  </StrictMode>,
-)
+    <CatsProvider>
+      <Router />
+    </CatsProvider>
+  </StrictMode>
+);

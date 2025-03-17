@@ -2,25 +2,31 @@ import React, { useEffect, useState } from "react";
 import { homePageStyles } from "./styling";
 import { MdAddCircle } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { getCats } from "../../API/catsAPI";
 import CatDetails from "../../Components/CatDetails/CatDetails";
 import { CatProperties } from "../../typing/cat";
 import { TextField } from "../../Components/TextField";
+import { useCatsContext } from "../../context/catsContext";
 
 const Home = (): React.JSX.Element => {
   const classes = homePageStyles();
-  const [cats, setCats] = useState<CatProperties[]>([]);
+  //   const [cats, setCats] = useState<CatProperties[]>([]);
+  const { cats, refreshCats } = useCatsContext();
   const [searchField, setSearchField] = useState<string>("");
   useEffect(() => {
-    getCats().then((response) => setCats(response));
+    refreshCats()
+    // getCats().then((response) => setCats(response));
   }, []);
 
   const getFilteredCats = (): CatProperties[] => {
     return cats.filter((cat) => {
-      const catNameLowercase = (cat.firstName + ' ' + cat.lastName).toLowerCase();
+      const catNameLowercase = (
+        cat.firstName +
+        " " +
+        cat.lastName
+      ).toLowerCase();
       const searchFieldLowercase = searchField.toLowerCase();
       console.log(catNameLowercase, searchFieldLowercase);
-      
+
       return (
         catNameLowercase.includes(searchFieldLowercase) ||
         cat.mice.find((mouse) =>
