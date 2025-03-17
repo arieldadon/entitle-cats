@@ -3,7 +3,6 @@ import { CatsController } from './cats.controller';
 import { CatsService } from './cats.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Cat } from './cat.model';
-// import { MiceModule } from 'src/mouse/mice.module';
 import { Mouse } from 'src/mouse/mouse.model';
 
 @Module({
