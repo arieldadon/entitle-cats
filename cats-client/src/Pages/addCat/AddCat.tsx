@@ -1,30 +1,36 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { addCatStyling } from "./styling";
 import { TextField } from "../../components/textField";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { TextArea } from "../../components/textArea";
 import { MultiSelectTextField } from "../../components/multiSelectTextField";
-import { CatProperties } from "../../types/cat";
 import { addCat } from "../../api/catsAPI";
 import { Link, useNavigate } from "react-router-dom";
 import { MdArrowBackIos } from "react-icons/md";
 import { homePath } from "../../router/config.json";
+import { Cat } from "../../models/cat";
 
-const AddCat = (): React.JSX.Element => {
+const FIRST_NAME_MAX_LENGTH = 50;
+const LAST_NAME_MAX_LENGTH = 50;
+const DESCRIPTION_MAX_LENGTH = 3000;
+const IMAGE_URL_PATTERN =
+  /https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,}/;
+
+const AddCat: React.FC = () => {
   const navigate = useNavigate();
   const {
     control,
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<CatProperties>();
+  } = useForm<Cat>();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "mice",
   });
   const classes = addCatStyling();
 
-  const onSubmit: SubmitHandler<CatProperties> = async (data) => {
+  const onSubmit: SubmitHandler<Cat> = async (data) => {
     await addCat(data);
     navigate(homePath);
   };
@@ -35,6 +41,8 @@ const AddCat = (): React.JSX.Element => {
     },
     [append]
   );
+
+  const mouseNames = useMemo(() => fields.map((mouse) => mouse.name), [fields]);
 
   return (
     <div className={classes.wrapper}>
@@ -52,7 +60,10 @@ const AddCat = (): React.JSX.Element => {
             error={errors.firstName?.message}
             {...register("firstName", {
               required: "First Name is Required",
-              maxLength: { value: 50, message: "Max Length of 50 characters" },
+              maxLength: {
+                value: FIRST_NAME_MAX_LENGTH,
+                message: `Max Length of ${FIRST_NAME_MAX_LENGTH} characters`,
+              },
             })}
           />
           <TextField
@@ -61,7 +72,10 @@ const AddCat = (): React.JSX.Element => {
             error={errors.lastName?.message}
             {...register("lastName", {
               required: "First Name is Required",
-              maxLength: { value: 50, message: "Max Length of 50 characters" },
+              maxLength: {
+                value: LAST_NAME_MAX_LENGTH,
+                message: `Max Length of ${LAST_NAME_MAX_LENGTH} characters`,
+              },
             })}
           />
         </div>
@@ -69,8 +83,8 @@ const AddCat = (): React.JSX.Element => {
           hint="Description"
           {...register("description", {
             maxLength: {
-              value: 3000,
-              message: "Max Length of 3000 characters",
+              value: DESCRIPTION_MAX_LENGTH,
+              message: `Max Length of ${DESCRIPTION_MAX_LENGTH} characters`,
             },
           })}
         />
@@ -80,14 +94,13 @@ const AddCat = (): React.JSX.Element => {
           {...register("imageUrl", {
             required: "Please enter an url",
             pattern: {
-              value:
-                /https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,}/,
+              value: IMAGE_URL_PATTERN,
               message: "Please enter a valid URL",
             },
           })}
         />
         <MultiSelectTextField
-          items={fields.map((mouse) => mouse.name)}
+          items={mouseNames}
           append={addMouse}
           remove={remove}
         />

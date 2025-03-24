@@ -12,9 +12,9 @@ export const addCatStyling = createUseStyles({
     fontSize: "2.3em",
   },
   backButton: {
-    fontSize: '2em',
-    marginLeft: '1em',
-    color: 'grey'
+    fontSize: "2em",
+    marginLeft: "1em",
+    color: "grey",
   },
   wrapper: {
     display: "flex",

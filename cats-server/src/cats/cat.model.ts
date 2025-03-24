@@ -27,6 +27,6 @@ export class Cat extends Model {
   @Column
   declare description: string;
 
-  @HasMany(() => Mouse)
+  @HasMany(() => Mouse, { foreignKey: 'catId' })
   mice: Mouse[];
 }

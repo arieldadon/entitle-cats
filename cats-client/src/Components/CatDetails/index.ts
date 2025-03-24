@@ -1,1 +1,1 @@
-export { default as CarDetails } from "./CatDetails";
+export { default as CatDetails } from "./CatDetails";

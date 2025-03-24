@@ -1,15 +1,15 @@
 import { useCallback, useState } from "react";
-import { CatProperties } from "../types/cat";
 import { getCats } from "../api/catsAPI";
 import constate from "constate";
+import { Cat } from "../models/cat";
 
 const useCats = () => {
-  const [cats, setCats] = useState<CatProperties[]>([]);
+  const [cats, setCats] = useState<Cat[]>([]);
 
   const refreshCats = useCallback(async (): Promise<void> => {
     const fetchedCats = await getCats();
     setCats(fetchedCats);
-  }, [])
+  }, []);
   return { cats, refreshCats };
 };
 

@@ -1,1 +1,1 @@
-export {default as MultiSelectTextField} from './MultiSelectTextField'
+export { default as MultiSelectTextField } from "./MultiSelectTextField";

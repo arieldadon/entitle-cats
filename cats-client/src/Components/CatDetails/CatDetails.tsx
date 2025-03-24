@@ -1,34 +1,33 @@
-import React from "react";
+import React, { memo } from "react";
 import { catDetailsStyling } from "./styling";
-import { CatProperties } from "../../types/cat";
+import config from "./config";
+import { Cat } from "../../models/cat";
 
-const CatDetails = ({
-  firstName,
-  lastName,
-  imageUrl,
-  description,
-  mice,
-}: CatProperties): React.JSX.Element => {
+export interface CatDetailsProps {
+  cat: Cat;
+}
+
+const handleImageError = ({
+  currentTarget,
+}: React.SyntheticEvent<HTMLImageElement>): void => {
+  currentTarget.onerror = null;
+  currentTarget.src = config.defaultImageUrl;
+};
+const CatDetails: React.FC<CatDetailsProps> = memo(({ cat }) => {
   const classes = catDetailsStyling();
   return (
     <div className={classes.wrapper}>
       <img
         className={classes.image}
-        src={imageUrl}
-        onError={({ currentTarget }) => {
-          currentTarget.onerror = null;
-          currentTarget.src =
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS-o4BqYKVAfgc_on60_5r-hx_NHAFMLF0jQ&s";
-        }}
+        src={cat.imageUrl}
+        onError={handleImageError}
       />
       <div className={classes.details}>
-        <span className={classes.title}>
-          This is {firstName} {lastName}
-        </span>
-        <span className={classes.description}>{description}</span>
+        <span className={classes.title}>This is {cat.fullName}</span>
+        <span className={classes.description}>{cat.description}</span>
         <span className={classes.miceTitle}>My mice</span>
         <div className={classes.miceList}>
-          {mice.map((mouse, index) => (
+          {cat.mice.map((mouse, index) => (
             <span className={classes.mouse} key={mouse + index.toString()}>
               - {mouse.name}
             </span>
@@ -37,6 +36,6 @@ const CatDetails = ({
       </div>
     </div>
   );
-};
+});
 
 export default CatDetails;

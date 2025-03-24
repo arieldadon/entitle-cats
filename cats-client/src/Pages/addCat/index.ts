@@ -1,1 +1,1 @@
-export {default as AddCat} from './AddCat'
+export { default as AddCat } from "./AddCat";

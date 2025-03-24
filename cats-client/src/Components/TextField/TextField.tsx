@@ -1,5 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 import { textFieldStyling } from "./styling";
+import classNames from "classnames";
 
 interface TextFieldProps {
   type?: string;
@@ -12,19 +13,17 @@ interface TextFieldProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
-const TextField = (props: TextFieldProps): React.JSX.Element => {
-  const classes = textFieldStyling();
-  return (
-    <div className={`${props.className} ${classes.wrapper}`}>
-      <span className={classes.hint}>{props.hint}</span>
-      <input
-        type={props.type || 'text'}
-        {...props}
-        className={classes.textField}
-      />
-      {props.error && <span className={classes.error}>{props.error}</span>}
-    </div>
-  );
-};
+const TextField: React.FC<TextFieldProps> = memo(
+  ({ className, hint, error, type = "text", ...inputProps }) => {
+    const classes = textFieldStyling();
+    return (
+      <div className={classNames(className, classes.wrapper)}>
+        <span className={classes.hint}>{hint}</span>
+        <input type={type} {...inputProps} className={classes.textField} />
+        {error && <span className={classes.error}>{error}</span>}
+      </div>
+    );
+  }
+);
 
 export default TextField;

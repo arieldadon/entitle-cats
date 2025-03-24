@@ -1,20 +1,17 @@
-import { CatProperties } from "../types/cat";
+import { Cat, CatInterface } from "../models/cat";
+import { httpRequest } from "./api";
 import config from "./config";
 
-const catsUrl = config.server + config.paths.cats
+const CATS_URL = config.server + config.paths.cats;
 
-export const getCats = async (): Promise<CatProperties[]> => {
-  const response = await fetch(catsUrl);
-  if (!response.ok) {
-    throw new Error(response.statusText);
-  }
-  return await response.json()
-}
+export const getCats = async (): Promise<Cat[]> => {
+  const cats = await httpRequest<CatInterface[]>(CATS_URL);
+  return cats.map((cat) => new Cat(cat));
+};
 
-export const addCat = async (cat: CatProperties): Promise<void> => {
-    const response = await fetch(catsUrl, {method: 'POST', headers: config.jsonContentTypeHeader, body: JSON.stringify(cat)});
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-    await response.json()
-  }
+export const addCat = async (cat: CatInterface): Promise<void> => {
+  return await httpRequest<void, CatInterface>(CATS_URL, {
+    method: "POST",
+    body: cat,
+  });
+};

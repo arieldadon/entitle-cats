@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCatDto } from './dto/create-cat.dto';
+import { CreateCatDto } from './dto/createCat.dto';
 import { Cat } from './cat.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { Mouse } from 'src/mouse/mouse.model';

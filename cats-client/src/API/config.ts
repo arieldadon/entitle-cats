@@ -1,8 +1,7 @@
 const config = {
-    server: import.meta.env.VITE_SERVER as string,
-    paths: {
-        cats: '/cats'
-    },
-    jsonContentTypeHeader: { "Content-Type": "application/json" }
-}
+  server: import.meta.env.VITE_SERVER,
+  paths: {
+    cats: "/cats",
+  },
+};
 export default config;

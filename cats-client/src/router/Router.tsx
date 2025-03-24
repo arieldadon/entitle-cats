@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import {homePath, addCatPath} from './config.json'
+import { homePath, addCatPath } from "./config.json";
 import { Home } from "../pages/home";
 import { AddCat } from "../pages/addCat";
 
-const Router = (): React.JSX.Element => {
+const Router: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>

@@ -7,7 +7,7 @@ import {
   MaxLength,
   ValidateNested,
 } from 'class-validator';
-import { CreateMouseDto } from 'src/mouse/dto/create-mouse.dto';
+import { CreateMouseDto } from 'src/mouse/dto/createMouse.dto';
 
 export class CreateCatDto {
   @IsString()

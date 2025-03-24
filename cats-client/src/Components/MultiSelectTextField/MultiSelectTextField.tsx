@@ -2,20 +2,21 @@ import React, { useCallback, useState } from "react";
 import { TextField } from "../textField";
 import { multiSelectTextFieldStyling } from "./styling";
 import { MdAddCircle } from "react-icons/md";
+import classNames from "classnames";
+import MultiSelectItem from "./MultiSelectItem";
 
-type MultiSelectTypeField = string | { name: string; id: string };
 interface MultiSelectTextFieldProps {
-  items: MultiSelectTypeField[];
+  items: string[];
   className?: string;
   append: (value: string) => void;
   remove: (index: number) => void;
 }
-const MultiSelectTextField = ({
+const MultiSelectTextField: React.FC<MultiSelectTextFieldProps> = ({
   items,
   className,
   append,
   remove,
-}: MultiSelectTextFieldProps): React.JSX.Element => {
+}) => {
   const [value, setValue] = useState<string>("");
   const classes = multiSelectTextFieldStyling();
 
@@ -25,6 +26,7 @@ const MultiSelectTextField = ({
       setValue("");
     }
   }, [append, value]);
+
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>): void => {
       if (event.key === "Enter") {
@@ -34,20 +36,18 @@ const MultiSelectTextField = ({
     },
     [handleAppend]
   );
-  const getKey = (item: MultiSelectTypeField, index: number): string => {
-    return typeof item === "string" ? item + index.toString() : item.id;
-  };
-  const getValue = (item: MultiSelectTypeField): string => {
-    return typeof item === "string" ? item : item.name;
-  };
+
+  const handleValueChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value),
+    []
+  );
+
   return (
     <div>
       <div className={classes.textField}>
         <TextField
-          className={className + " " + classes.textField}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setValue(e.target.value)
-          }
+          className={classNames(className, classes.textField)}
+          onChange={handleValueChange}
           onKeyDown={handleKeyDown}
           value={value}
           hint="Add Mouse"
@@ -58,15 +58,12 @@ const MultiSelectTextField = ({
       </div>
       <div className={classes.listWrapper}>
         {items.map((item, index) => (
-          <span
-            key={getKey(item, index)}
-            className={classes.value}
-            onClick={() => {
-              remove(index);
-            }}
-          >
-            {getValue(item)}
-          </span>
+          <MultiSelectItem
+            key={index}
+            item={item}
+            index={index}
+            remove={remove}
+          />
         ))}
       </div>
     </div>
